@@ -1,4 +1,4 @@
-from card_verification import *
+from SimpleBankingSystem.card_verification import *
 
 
 simulations = 25
