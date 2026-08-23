@@ -1,0 +1,1 @@
+Demonstration of using the principles of object--oriented programming, function decomposition, control flow, and simple data structures (lists(tuple()) to implement two tax rate schedules (progressive, standard) that calculate the user's current tax rate and amount needed to pay.
