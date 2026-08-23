@@ -20,7 +20,7 @@ class TaxBracket:
                          (0,132407)]
         self.user_income = user_income
 
-    def progressive_rate_amount(self):
+    def simple_rate_amount(self):
         tmp_income = self.user_income
         if tmp_income >= self.brackets[3][1]:
             b_num = 4
@@ -80,7 +80,7 @@ class TaxBracket:
 def main():
     #user_income = int(sys.stdin.readline())
     user_income = int(input())
-    tax_amount, tax_rate = TaxBracket(user_income).progressive_rate_amount()
+    tax_amount, tax_rate = TaxBracket(user_income).simple_rate_amount()
     tax_rate  *= 100
     tax_rate = int(tax_rate)
     tax_amount = round(tax_amount)
