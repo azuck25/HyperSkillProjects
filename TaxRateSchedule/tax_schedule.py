@@ -29,9 +29,10 @@ class TaxBracket:
         self.user_income = user_income
         self.monthly_income = user_income / 12
         self.tax_amount, self.tax_rate = self.calculate_rate_amount()
-        self.after_tax_amount = self.user_income - self.tax_amount
-        self.rent_allocation_gross = [*rent_allocation(self.user_income)]
-        self.rent_allocation_net = [*rent_allocation(self.after_tax_amount)]
+        self.net_income = self.user_income - self.tax_amount
+        self.monthly_net = float(self.net_income / 12)
+        self.rent_allocation_gross = [*rent_allocation(self.monthly_income)]
+        self.rent_allocation_net = [*rent_allocation(self.monthly_net)]
 
 
     def simple_rate_amount(self):
@@ -84,29 +85,25 @@ class TaxBracket:
 
 def main():
     #user_income = int(sys.stdin.readline())
-    t = TaxBracket(100000)
-    print(t.user_income)
+
     print("Enter your current income : ", end="")
     user_income = int(input())
-    tax_amount, tax_rate = TaxBracket(user_income).calculate_rate_amount()
-    tax_rate  *= 100
-    tax_amount = round(tax_amount)
-    statement = f"Federal Income Tax for ${user_income:.2f} is {tax_rate:.2f}%. That is ${tax_amount:.2f} dollars\n"
+    t = TaxBracket(user_income)
+    statement = f"Federal Income Tax for ${user_income:.2f} is {t.tax_rate:.2f}%. That is ${t.tax_amount:.2f} dollars\n"
     print(statement)
-    net_income = user_income - tax_amount
-    monthly_gross = float(user_income) / 12
-    monthly_net = float(net_income / 12)
+    net_income = user_income - t.tax_amount
     print(f"Gross Income : ${user_income:.2f}")
     print(f"Net Income : ${net_income:.2f}")
-    print(f"Monthly Gross Income: ${monthly_gross:.2f}")
-    print(f"Monthly Net Income : ${monthly_net:.2f}\n")
-    rent_allocation_gross = [*rent_allocation(monthly_gross)]
-    rent_allocation_net = [*rent_allocation(monthly_net)]
+    print(f"Tax Amount : ${t.tax_amount:.2f}")
+    print(f"Monthly Gross Income: ${float(t.monthly_income):.2f}")
+    print(f"Monthly Net Income : ${float(t.monthly_net):.2f}\n")
+
     print("Monthly Rent Allocation (Gross Rate)")
-    for i in rent_allocation_net:
-        print(f"rate : {float(i/monthly_gross)*100:.2f}% : rent : ${float(i):.2f}")
+    for i in t.rent_allocation_gross:
+        print(f"rate : {float(i/t.monthly_income)*100:.2f}% : rent : ${float(i):.2f}")
     print("\nMonthly Rent Allocation (Net Rate / Post Tax Availability)")
-    for i in rent_allocation_gross:
-        print(f"rate : {float(i/monthly_net)*100:.2f}% : rent : ${float(i):.2f}")
+    for i in t.rent_allocation_net:
+        print(f"rate : {float(i/t.monthly_net)*100:.2f}% : rent : ${float(i):.2f}")
 
 
+main()
